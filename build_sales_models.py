@@ -8,7 +8,7 @@ import os
 import numpy as np
 
 # Load data
-df = pd.read_csv('D:\\ola-ev\\codespaces-flask-main\\ola_ev_sales_2020_2024.csv')
+df = pd.read_csv('D:\\ola-ev\\codespaces_flask_main\\ola_ev_sales_2020_2024.csv')
 X = df[['Year']].values
 y = df['Units Sold'].values
 
