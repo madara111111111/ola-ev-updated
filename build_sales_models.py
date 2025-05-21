@@ -7,8 +7,9 @@ import joblib
 import os
 import numpy as np
 
-# Load data
-df = pd.read_csv('D:\\ola-ev\\ola_ev_sales_2020_2024.csv')
+# Load data using a relative path for portability
+csv_path = os.path.join(os.path.dirname(__file__), "ola_ev_sales_2020_2024.csv")
+df = pd.read_csv(csv_path)
 X = df[['Year']].values
 y = df['Units Sold'].values
 
