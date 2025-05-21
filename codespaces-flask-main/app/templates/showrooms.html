@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Ola Showrooms{% endblock %}
+
+{% block content %}
+<h1>Ola Showrooms</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>District</th>
+      <th>Address</th>
+      <th>Phone</th>
+      <th>Map Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for showroom in showrooms %}
+    <tr>
+      <td>{{ showroom.name }}</td>
+      <td>{{ showroom.district }}</td>
+      <td>{{ showroom.address }}</td>
+      <td>{{ showroom.phone }}</td>
+      <td>
+        {% if showroom.map_link %}
+          <a href="{{ showroom.map_link }}" target="_blank">View Map</a>
+        {% else %}
+          N/A
+        {% endif %}
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5">No showrooms found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
