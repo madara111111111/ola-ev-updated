@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}User Dashboard{% endblock %}
+
+{% block content %}
+<div class="user-hero-bg" style="border-radius:18px;overflow:hidden;position:relative;">
+  <div class="user-hero-overlay"></div>
+  <div class="user-hero-content">
+    <h1>Welcome, {{ current_user.username }}!</h1>
+    <p class="lead">Explore real user feedback, compare Ola EV models, predict future sales, and find showrooms near you. Stay updated with the latest sentiment and analytics for Ola Electric Vehicles.</p>
+  </div>
+</div>
+<div style="margin-top:2rem;">
+  <h2 style="margin-bottom:0.7rem;">Recent Comments</h2>
+  <table>
+    <thead>
+      <tr><th>Source</th><th>Comment</th><th>Sentiment</th></tr>
+    </thead>
+    <tbody>
+      {% for c in comments %}
+      <tr>
+        <td><a href="{{ c.source }}" target="_blank">Link</a></td>
+        <td>{{ c.text }}</td>
+        <td>{{ c.sentiment|capitalize }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+<style>
+.user-hero-bg {
+  background: url('https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+  min-height: 220px;
+  margin-bottom: 2rem;
+  position: relative;
+  box-shadow: 0 4px 24px #6366f1a0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.user-hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(120deg, rgba(99,102,241,0.82) 0%, rgba(96,165,250,0.65) 100%);
+  z-index: 1;
+  transition: background 0.5s;
+}
+.user-hero-content {
+  position: relative;
+  z-index: 2;
+  color: #fff;
+  text-align: center;
+  padding: 2.5rem 1rem;
+  width: 100%;
+}
+.user-hero-content h1 {
+  font-size: 2.3rem;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 16px #232946, 0 1px 0 #6366f1;
+}
+.user-hero-content .lead {
+  font-size: 1.2rem;
+  font-weight: 400;
+  text-shadow: 0 2px 8px #6366f1;
+}
+@media (max-width: 700px) {
+  .user-hero-content { padding: 1.2rem 0.5rem; }
+  .user-hero-content h1 { font-size: 1.3rem; }
+  .user-hero-bg { min-height: 120px; }
+}
+@media (prefers-color-scheme: dark) {
+  .user-hero-overlay {
+    background: linear-gradient(120deg, rgba(35,41,70,0.92) 0%, rgba(99,102,241,0.82) 100%);
+  }
+  .user-hero-content h1, .user-hero-content .lead { text-shadow: 0 2px 16px #6366f1, 0 1px 0 #232946; }
+}
+body.dark-mode .user-hero-overlay {
+  background: linear-gradient(120deg, rgba(35,41,70,0.92) 0%, rgba(99,102,241,0.82) 100%) !important;
+}
+body.dark-mode .user-hero-content h1, body.dark-mode .user-hero-content .lead {
+  text-shadow: 0 2px 16px #6366f1, 0 1px 0 #232946 !important;
+}
+</style>
+{% endblock %}
