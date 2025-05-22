@@ -78,6 +78,8 @@ def compare():
 # Use the correct absolute path for the sales CSV
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SALES_CSV = os.path.join(BASE_DIR, "ola_ev_sales_2020_2024.csv")
+if not os.path.exists(SALES_CSV):
+    raise FileNotFoundError(f"Could not find sales CSV at {SALES_CSV}. Please place 'ola_ev_sales_2020_2024.csv' in the project root directory.")
 sales_df = pd.read_csv(SALES_CSV)
 
 @user_bp.route('/predict_sales', methods=['GET', 'POST'])
