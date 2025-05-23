@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}View Showrooms - OlaPulse{% endblock %}
+
+{% block content %}
+<h1>All Showrooms</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Phone</th>
+      <th>Map Link</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for s in showrooms %}
+    <tr>
+      <td>{{ s.name }}</td>
+      <td>{{ s.address }}</td>
+      <td>{{ s.phone }}</td>
+      <td>
+        {% if s.map_link %}
+          <a href="{{ s.map_link }}" target="_blank">View Map</a>
+        {% else %}
+          N/A
+        {% endif %}
+      </td>
+      <td>
+        <form method="post" action="{{ url_for('admin.delete_showroom', showroom_id=s.id) }}" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this showroom?')">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="5">No showrooms found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Add Showroom - OlaPulse{% endblock %}
+
+{% block content %}
+<h1>Add Showroom</h1>
+<form method="post">
+  <label>Name</label>
+  <input type="text" name="name" required>
+  <label>Address</label>
+  <input type="text" name="address" required>
+  <label>Phone</label>
+  <input type="text" name="phone">
+  <label>Map Link</label>
+  <input type="text" name="map_link">
+  <button type="submit">Add Showroom</button>
+</form>
+{% endblock %}

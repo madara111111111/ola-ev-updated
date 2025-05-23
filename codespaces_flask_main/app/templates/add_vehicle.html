@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Add Vehicle - OlaPulse{% endblock %}
+
+{% block content %}
+<h1>Add Vehicle</h1>
+<form method="post">
+  <label>Name</label>
+  <input type="text" name="name" required>
+  <label>Price</label>
+  <input type="text" name="price" required>
+  <label>Top Speed</label>
+  <input type="text" name="top_speed" required>
+  <label>Battery</label>
+  <input type="text" name="battery" required>
+  <label>Weight</label>
+  <input type="text" name="weight" required>
+  <label>Range</label>
+  <input type="text" name="range" required>
+  <button type="submit">Add Vehicle</button>
+</form>
+{% endblock %}

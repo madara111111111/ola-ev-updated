@@ -269,7 +269,7 @@
   <nav>
     <div>
       <a href="{{ url_for('index') }}" style="color:inherit;text-decoration:none;">
-        <strong>Ola EV Sentiment</strong>
+        <strong>OlaPulse</strong>
       </a>
     </div>
     <div>
@@ -278,7 +278,10 @@
           <a href="{{ url_for('admin.admin_home') }}">Admin Home</a>
           <a href="{{ url_for('admin.analytics') }}">Analytics</a>
           <a href="{{ url_for('admin.manage_users') }}">Users</a>
-          <a href="{{ url_for('admin.manage_data') }}">Manage Data</a>
+          <a href="{{ url_for('admin.add_vehicle') }}">Add Vehicle</a>
+          <a href="{{ url_for('admin.view_vehicles') }}">View Vehicles</a>
+          <a href="{{ url_for('admin.add_showroom') }}">Add Showroom</a>
+          <a href="{{ url_for('admin.view_showrooms') }}">View Showrooms</a>
           <a href="{{ url_for('auth.logout') }}">Logout</a>
         {% else %}
           <a href="{{ url_for('user.user_home') }}">Home</a>

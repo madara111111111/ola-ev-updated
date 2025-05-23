@@ -1,11 +1,16 @@
 {% extends "base.html" %}
-{% block title %}Manage Users{% endblock %}
+{% block title %}Manage Users - OlaPulse{% endblock %}
 
 {% block content %}
-<h1>User Management</h1>
+<h1>Manage Users</h1>
 <table>
   <thead>
-    <tr><th>ID</th><th>Username</th><th>Email</th><th>Role</th><th>Actions</th></tr>
+    <tr>
+      <th>ID</th>
+      <th>Username</th>
+      <th>Email</th>
+      <th>Role</th>
+    </tr>
   </thead>
   <tbody>
     {% for user in users %}
@@ -14,12 +19,9 @@
       <td>{{ user.username }}</td>
       <td>{{ user.email }}</td>
       <td>{{ user.role }}</td>
-      <td>
-        <span style="color: #888;">(delete not implemented)</span>
-      </td>
     </tr>
     {% else %}
-    <tr><td colspan="5">No users found.</td></tr>
+    <tr><td colspan="4">No users found.</td></tr>
     {% endfor %}
   </tbody>
 </table>

@@ -72,8 +72,15 @@ def compare():
     if not current_user.is_authenticated:
         return render_template('not_logged_in.html', title="Not Logged In"), 200
     vehicles = Vehicle.query.all()
-    print("Vehicles fetched:", vehicles)  # Debug: see if any vehicles are fetched
-    return render_template('compare.html', vehicles=vehicles)
+    vehicle1 = None
+    vehicle2 = None
+    v1_id = request.args.get('vehicle1', type=int)
+    v2_id = request.args.get('vehicle2', type=int)
+    if v1_id:
+        vehicle1 = Vehicle.query.get(v1_id)
+    if v2_id:
+        vehicle2 = Vehicle.query.get(v2_id)
+    return render_template('compare.html', vehicles=vehicles, vehicle1=vehicle1, vehicle2=vehicle2)
 
 # Use the correct absolute path for the sales CSV
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

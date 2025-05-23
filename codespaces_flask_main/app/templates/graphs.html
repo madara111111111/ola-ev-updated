@@ -1,32 +1,72 @@
 {% extends "base.html" %}
-{% block title %}Sentiment Graphs{% endblock %}
+{% block title %}Sentiment Graphs - OlaPulse{% endblock %}
 
 {% block head %}
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!-- Plotly.js for interactive/dynamic/3D graphs -->
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 {% endblock %}
 
 {% block content %}
-<h1>Sentiment Analysis Overview</h1>
-<canvas id="sentimentChart" width="600" height="400"></canvas>
-
+<h1>Sentiment Analysis Graphs</h1>
+<div id="sentiment-pie" style="width:100%;max-width:600px;height:400px;margin:auto;"></div>
+<div id="sentiment-bar" style="width:100%;max-width:700px;height:400px;margin:2rem auto;"></div>
+<div id="sentiment-3d" style="width:100%;max-width:700px;height:400px;margin:2rem auto;"></div>
 <script>
-  const ctx = document.getElementById('sentimentChart').getContext('2d');
-  const data = {
+  // Pie Chart
+  var pieData = [{
+    values: {{ data|tojson }},
     labels: {{ labels|tojson }},
-    datasets: [{
-      label: 'Sentiment Count',
-      data: {{ counts|tojson }},
-      backgroundColor: ['#4CAF50', '#FFC107', '#F44336'],
-      borderWidth: 1
-    }]
+    type: 'pie',
+    hole: 0.4,
+    marker: {colors: ['#6366f1', '#fbbf24', '#ef4444']},
+    textinfo: 'label+percent',
+    pull: [0.05, 0, 0.05]
+  }];
+  var pieLayout = {
+    title: "Sentiment Distribution",
+    showlegend: true
   };
+  Plotly.newPlot('sentiment-pie', pieData, pieLayout, {responsive: true});
 
-  new Chart(ctx, {
+  // Bar Chart
+  var barData = [{
+    x: {{ labels|tojson }},
+    y: {{ data|tojson }},
     type: 'bar',
-    data: data,
-    options: {
-      scales: { y: { beginAtZero: true } }
+    marker: {color: ['#6366f1', '#fbbf24', '#ef4444']},
+    text: {{ data|tojson }},
+    textposition: 'auto'
+  }];
+  var barLayout = {
+    title: "Sentiment Counts",
+    yaxis: {title: "Count"},
+    xaxis: {title: "Sentiment"},
+    bargap: 0.4
+  };
+  Plotly.newPlot('sentiment-bar', barData, barLayout, {responsive: true});
+
+  // 3D/Dynamic Chart (3D scatter for demo)
+  var z = [
+    [{{ data[0] }}, 0, 0],
+    [0, {{ data[1] }}, 0],
+    [0, 0, {{ data[2] }}]
+  ];
+  var trace3d = {
+    z: z,
+    type: 'surface',
+    colorscale: [[0, '#6366f1'], [0.5, '#fbbf24'], [1, '#ef4444']],
+    showscale: false,
+    opacity: 0.9
+  };
+  var layout3d = {
+    title: "3D Sentiment Visualization",
+    autosize: true,
+    scene: {
+      xaxis: {title: 'Positive'},
+      yaxis: {title: 'Neutral'},
+      zaxis: {title: 'Negative'}
     }
-  });
+  };
+  Plotly.newPlot('sentiment-3d', [trace3d], layout3d, {responsive: true});
 </script>
 {% endblock %}

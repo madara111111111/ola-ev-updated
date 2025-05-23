@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}View Vehicles - OlaPulse{% endblock %}
+
+{% block content %}
+<h1>All Vehicles</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Top Speed</th>
+      <th>Battery</th>
+      <th>Weight</th>
+      <th>Range</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for v in vehicles %}
+    <tr>
+      <td>{{ v.name }}</td>
+      <td>{{ v.price }}</td>
+      <td>{{ v.top_speed }}</td>
+      <td>{{ v.battery }}</td>
+      <td>{{ v.weight }}</td>
+      <td>{{ v.range }}</td>
+      <td>
+        <form method="post" action="{{ url_for('admin.delete_vehicle', vehicle_id=v.id) }}" style="display:inline;">
+          <button type="submit" onclick="return confirm('Delete this vehicle?')">Delete</button>
+        </form>
+      </td>
+    </tr>
+    {% else %}
+    <tr><td colspan="7">No vehicles found.</td></tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}

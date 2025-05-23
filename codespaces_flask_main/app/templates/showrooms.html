@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Ola Showrooms{% endblock %}
+{% block title %}Showrooms - OlaPulse{% endblock %}
 
 {% block content %}
 <h1>Ola Showrooms</h1>
@@ -7,7 +7,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>District</th>
       <th>Address</th>
       <th>Phone</th>
       <th>Map Link</th>
@@ -17,7 +16,6 @@
     {% for showroom in showrooms %}
     <tr>
       <td>{{ showroom.name }}</td>
-      <td>{{ showroom.district }}</td>
       <td>{{ showroom.address }}</td>
       <td>{{ showroom.phone }}</td>
       <td>
@@ -29,7 +27,7 @@
       </td>
     </tr>
     {% else %}
-    <tr><td colspan="5">No showrooms found.</td></tr>
+    <tr><td colspan="4">No showrooms found.</td></tr>
     {% endfor %}
   </tbody>
 </table>
