@@ -7,6 +7,8 @@ import io
 import joblib
 import os
 import pandas as pd
+import pickle
+from sklearn.preprocessing import PolynomialFeatures
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -82,11 +84,10 @@ def compare():
         vehicle2 = Vehicle.query.get(v2_id)
     return render_template('compare.html', vehicles=vehicles, vehicle1=vehicle1, vehicle2=vehicle2)
 
-# Use the correct absolute path for the sales CSV
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-SALES_CSV = os.path.join(BASE_DIR, "ola_ev_sales_2020_2024.csv")
+# Use the correct absolute path for the sales CSV (always D:\ola-ev\ola_ev_sales_2020_2024.csv)
+SALES_CSV = r'D:\ola-ev\ola_ev_sales_2020_2024.csv'
 if not os.path.exists(SALES_CSV):
-    raise FileNotFoundError(f"Could not find sales CSV at {SALES_CSV}. Please place 'ola_ev_sales_2020_2024.csv' in the project root directory.")
+    raise FileNotFoundError(f"Could not find sales CSV at {SALES_CSV}. Please place 'ola_ev_sales_2020_2024.csv' in d:/ola-ev")
 sales_df = pd.read_csv(SALES_CSV)
 
 @user_bp.route('/predict_sales', methods=['GET', 'POST'])
@@ -118,7 +119,7 @@ def predict_sales():
                 # Get predictions and metrics for all models
                 results = {}
                 metrics = {}
-                for model_name in ['linear_regression', 'random_forest', 'decision_tree']:
+                for model_name in ['linear_regression', 'polynomial_regression', 'prophet']:
                     pred, conf, cm, acc, prec, rec, f1 = predict_sales_model(year, model_name, with_metrics=True)
                     results[model_name] = {
                         'prediction': pred,
@@ -165,22 +166,26 @@ MODEL_DIR = os.path.join(os.path.dirname(__file__), '..', 'ml_models')
 lr_model = joblib.load(os.path.join(MODEL_DIR, 'linear_regression.pkl'))
 rf_model = joblib.load(os.path.join(MODEL_DIR, 'random_forest.pkl'))
 dt_model = joblib.load(os.path.join(MODEL_DIR, 'decision_tree.pkl'))
+poly_model = joblib.load(os.path.join(MODEL_DIR, 'polynomial_regression.pkl'))
+with open(os.path.join(MODEL_DIR, 'prophet_model.pkl'), 'rb') as f:
+    prophet_model = pickle.load(f)
+# Load the fitted PolynomialFeatures object
+with open(os.path.join(MODEL_DIR, 'poly_features.pkl'), 'rb') as f:
+    poly = pickle.load(f)
 
 def predict_sales_model(year, model_name='linear_regression', with_metrics=False):
     # Choose model
-    if model_name == 'random_forest':
-        model = rf_model
-    elif model_name == 'decision_tree':
-        model = dt_model
+    if model_name == 'polynomial_regression':
+        X_poly = poly.transform([[year]])
+        prediction = int(poly_model.predict(X_poly)[0])
+    elif model_name == 'prophet':
+        import pandas as pd
+        future = pd.DataFrame({'ds': [pd.to_datetime(year, format='%Y')]})
+        prediction = int(prophet_model.predict(future)['yhat'].values[0])
     else:
-        model = lr_model
-
-    # Prepare input (reshape as needed)
-    X = [[year]]
-    prediction = int(model.predict(X)[0])
+        prediction = int(lr_model.predict([[year]])[0])
 
     # Dummy confusion matrix and metrics for demonstration
-    # Replace with your actual evaluation logic
     import random
     cm = [
         [random.randint(30, 60), random.randint(0, 10)],

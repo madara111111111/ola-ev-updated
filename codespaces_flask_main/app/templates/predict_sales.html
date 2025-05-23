@@ -34,14 +34,14 @@
         <td>{{ all_model_results.linear_regression.confidence }}</td>
       </tr>
       <tr>
-        <td>Random Forest</td>
-        <td>{{ all_model_results.random_forest.prediction }}</td>
-        <td>{{ all_model_results.random_forest.confidence }}</td>
+        <td>Polynomial Regression</td>
+        <td>{{ all_model_results.polynomial_regression.prediction }}</td>
+        <td>{{ all_model_results.polynomial_regression.confidence }}</td>
       </tr>
       <tr>
-        <td>Decision Tree</td>
-        <td>{{ all_model_results.decision_tree.prediction }}</td>
-        <td>{{ all_model_results.decision_tree.confidence }}</td>
+        <td>Prophet</td>
+        <td>{{ all_model_results.prophet.prediction }}</td>
+        <td>{{ all_model_results.prophet.confidence }}</td>
       </tr>
     </tbody>
   </table>
@@ -55,12 +55,12 @@
       <div style="text-align:center; font-size:0.9em;">Linear Regression</div>
     </div>
     <div style="width: 250px; background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 0 8px #eee;">
-      <canvas id="cm_rf" width="220" height="180"></canvas>
-      <div style="text-align:center; font-size:0.9em;">Random Forest</div>
+      <canvas id="cm_poly" width="220" height="180"></canvas>
+      <div style="text-align:center; font-size:0.9em;">Polynomial Regression</div>
     </div>
     <div style="width: 250px; background: #fff; padding: 1rem; border-radius: 8px; box-shadow: 0 0 8px #eee;">
-      <canvas id="cm_dt" width="220" height="180"></canvas>
-      <div style="text-align:center; font-size:0.9em;">Decision Tree</div>
+      <canvas id="cm_prophet" width="220" height="180"></canvas>
+      <div style="text-align:center; font-size:0.9em;">Prophet</div>
     </div>
   </div>
   <script>
@@ -85,8 +85,8 @@
       });
     }
     plotConfMatrix('cm_lr', cmData.linear_regression, 'Linear Regression');
-    plotConfMatrix('cm_rf', cmData.random_forest, 'Random Forest');
-    plotConfMatrix('cm_dt', cmData.decision_tree, 'Decision Tree');
+    plotConfMatrix('cm_poly', cmData.polynomial_regression, 'Polynomial Regression');
+    plotConfMatrix('cm_prophet', cmData.prophet, 'Prophet');
   </script>
 {% endif %}
 
